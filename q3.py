@@ -7,14 +7,6 @@ from math import sqrt, ceil
 # importa função auxilar que verifica se variavel é texto
 from def_aux import is_string
 
-
-def elementos(arr, vazio):
-    """Gerador, retorna em sequência elementos de um array|texto"""
-    for elemento in arr:
-       yield elemento
-    while True:
-        yield vazio
-
 def encriptar(texto):
     """função que recebe um texto e retorna o mesmo criptografado"""
 
@@ -30,21 +22,21 @@ def encriptar(texto):
     n = ceil(sqrt(len(texto)))
     
     #3.2 Cria a grade 
-    grade = [[""]*n]*n
+    grade = [["" for _ in range(n)] for __ in range(n)]
     
     #4. insere o texto na grade, no sentido vertical, 
     #   de cima para baixo, da esquerda para a direita.
-    elemento = elementos(texto, "") # usando um gerador para entregar os elementos
     for j in range(n): #j = coluna
         for i in range(n): #i = linha
             try: 
-                grade[i][j] = texto.pop(0)
+                elemento,texto = texto[0],texto[1:]
             except:
-                grade[i][j] = " "
-        
-    texto_criptografado = " ".join(["".join(x) for x in grade])
+                elemento = ""
+            finally:
+                #linha.append(elemento)
+                grade[i][j] = elemento    
     #5. transforma a grade em um texto
+    texto_criptografado = " ".join(["".join(x) for x in grade])
     
     #6. retorna o resultado da transformação
     return texto_criptografado
-    
